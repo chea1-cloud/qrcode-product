@@ -7,7 +7,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "npm start",
+    "start": "node backend/src/app.js",
     "dev": "nodemon backend/src/app.js"
   },
   "dependencies": {
