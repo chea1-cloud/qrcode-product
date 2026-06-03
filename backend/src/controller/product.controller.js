@@ -1,31 +1,39 @@
 import Product from '../models/product.model.js';
 
-//get product by QR
-export const getProduct = async(req, res) =>{
-  try{
-    const product = await Product.findOne({
-      qr: req.params.qr
+// Get product by QR
+export const getProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({ qr: req.params.qr });
+    if (!product) {
+      return res.status(404).json({ message: "Not found" });
+    }
+    // Return both QR and MongoDB's auto _id
+    res.json({
+      id: product._id,   // auto-generated unique ID
+      qr: product.qr,
+      price: product.price
     });
-    if(!product){
-      return res.status(404).json({
-        message: "Not found"
-      });
-    }res.json(product)
-  }catch(error){
-    res.status(500).json({error: error.message});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
-//update product
-export const createOrUpdateProduct = async(req, res)=>{
-  try{
-    const {qr, price} = req.body;
+
+// Create or update product
+export const createOrUpdateProduct = async (req, res) => {
+  try {
+    const { qr, price } = req.body;
     const product = await Product.findOneAndUpdate(
-      {qr},
-      {price},
-      {new: true, upsert: true}
+      { qr },
+      { price },
+      { new: true, upsert: true }
     );
-    res.json(product);
-  }catch(error){
-    res.status(500).json({ error: error.message})
+    // Return both QR and MongoDB's auto _id
+    res.json({
+      id: product._id,   // auto-generated unique ID
+      qr: product.qr,
+      price: product.price
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
