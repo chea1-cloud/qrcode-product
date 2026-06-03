@@ -5,6 +5,7 @@ import { createOrUpdateProduct, getProduct } from '../controller/product.control
 const router = express.Router();
 
 router.route('/:qr').get(getProduct);
-router.route('/update').post(createOrUpdateProduct);
+router.route('/').post(createOrUpdateProduct);
+
 
 export default router;
