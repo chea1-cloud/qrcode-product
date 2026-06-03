@@ -22,7 +22,7 @@ if (!qr) {
   document.getElementById("output").innerText = "No QR scanned";
 } else {
   // call backend
-  fetch(`https://qrcode-product-3.onrender.com/api/products/${qr}`)
+  fetch(`https://qrcode-product3.onrender.com/api/products/${qr}`)
     .then(res => res.json())
     .then(data => {
       if (data && data.price) {
