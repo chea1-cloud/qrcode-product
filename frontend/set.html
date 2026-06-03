@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set Price</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+
+<h2>Scan Product QR to Set Price</h2>
+
+<!-- CAMERA SCANNER -->
+<div id="reader" style="width:300px;"></div>
+
+<hr>
+
+<!-- SHOW SCANNED QR -->
+<h3>Scanned QR:</h3>
+<p id="qrText">Waiting for scan...</p>
+
+<!-- PRICE INPUT -->
+<input id="price" placeholder="Enter price" />
+
+<br><br>
+<button onclick="savePrice()">Save Price</button>
+
+<div>
+  <a href='scan.html'><p>scan</p>
+</div>
+
+<script>
+let currentQR = null;
+
+// 📷 QR SCANNER
+function onScanSuccess(decodedText) {
+  currentQR = decodedText;
+
+  document.getElementById("qrText").innerText = decodedText;
+}
+
+// START SCANNER
+let scanner = new Html5QrcodeScanner(
+  "reader",
+  {
+    fps: 10,
+    qrbox: 250,
+    formatsToSupport: [
+      Html5QrcodeSupportedFormats.EAN_13,
+      Html5QrcodeSupportedFormats.EAN_8,
+      Html5QrcodeSupportedFormats.CODE_128,
+      Html5QrcodeSupportedFormats.CODE_39,
+      
+    ]
+  }
+)
+
+scanner.render(onScanSuccess);
+
+// 💾 SAVE TO BACKEND
+function savePrice() {
+  const price = document.getElementById("price").value;
+
+  if (!currentQR) {
+    alert("Scan a QR first!");
+    return;
+  }
+
+  fetch("http://localhost:5000/api/products/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      qr: currentQR,
+      price: price
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Saved successfully!");
+    window.location.href = "result.html";
+  })
+  .catch(err => {
+    alert("Error saving data");
+  });
+}
+</script>
+</body>
+</html>

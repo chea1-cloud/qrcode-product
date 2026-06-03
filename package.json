@@ -1,0 +1,20 @@
+{
+  "name": "qr-scan",
+  "version": "1.0.0",
+  "description": "dr",
+  "license": "ISC",
+  "author": "chea",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node backend/src/app.js",
+    "dev": "nodemon backend/src/app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.3",
+    "nodemon": "^3.1.14"
+  }
+}
