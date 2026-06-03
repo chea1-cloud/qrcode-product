@@ -78,10 +78,6 @@ function savePrice() {
     })
   })
   .then(res => res.json())
-  .then(data => {
-    alert("Saved successfully!");
-    window.location.href = "result.html";
-  })
   .catch(err => {
     alert("Error saving data");
   });
