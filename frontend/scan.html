@@ -23,7 +23,7 @@ function onScanSuccess(decodedText) {
   localStorage.setItem("qr", decodedText);
 
   // check backend
-  fetch(`http://localhost:5000/api/products/${decodedText}`)
+  fetch(`https://qrcode-product-1.onrender.com/api/products/${decodedText}`)
     .then(res => res.json())
     .then(data => {
       if (data && data.price) {
